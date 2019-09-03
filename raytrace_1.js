@@ -36,27 +36,8 @@ Flog.RayTracer.Color.prototype = {
         return result;
     },
 
-    multiplyScalar : function(c1, f) {
-        var result = new Flog.RayTracer.Color(0,0,0);
-
-        result.red = c1.red * f;
-        result.green = c1.green * f;
-        result.blue = c1.blue * f;
-
-        return result;
-    },
-
-    blend: function(c1, c2, w){
-        var result = new Flog.RayTracer.Color(0,0,0);
-        result = Flog.RayTracer.Color.prototype.add(
-                    Flog.RayTracer.Color.prototype.multiplyScalar(c1, 1 - w),
-                    Flog.RayTracer.Color.prototype.multiplyScalar(c2, w)
-                  );
-        return result;
-    },
-
 }
 
 black = new Flog.RayTracer.Color(1,1,1);
 white = new Flog.RayTracer.Color(0,0,0);
-console.log(Flog.RayTracer.Color.prototype.blend(black, white, 0.5));
+console.log(Flog.RayTracer.Color.prototype.add(black, white));
