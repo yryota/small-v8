@@ -6,10 +6,6 @@ function addPoints(field) {
     for (var i = 1; i <= n; i++) {
         field.setVelocity(i, i, n, n);
         field.setDensity(i, i, 5);
-        field.setVelocity(i, n - i, -n, -n);
-        field.setDensity(i, n - i, 20);
-        field.setVelocity(128 - i, n + i, -n, -n);
-        field.setDensity(128 - i, n + i, 30);
     }
 }
 
@@ -40,18 +36,9 @@ function FluidField(canvas) {
         this.setDensity = function(x, y, d) {
              dens[(x + 1) + (y + 1) * rowSize] = d;
         }
-        this.getDensity = function(x, y) {
-             return dens[(x + 1) + (y + 1) * rowSize];
-        }
         this.setVelocity = function(x, y, xv, yv) {
              u[(x + 1) + (y + 1) * rowSize] = xv;
              v[(x + 1) + (y + 1) * rowSize] = yv;
-        }
-        this.getXVelocity = function(x, y) {
-             return u[(x + 1) + (y + 1) * rowSize];
-        }
-        this.getYVelocity = function(x, y) {
-             return v[(x + 1) + (y + 1) * rowSize];
         }
         this.width = function() { return width; }
         this.height = function() { return height; }

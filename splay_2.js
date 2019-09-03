@@ -153,6 +153,5 @@ SplayTree.Node.prototype.right = null;
 
 splayTree = new SplayTree();
 splayTree.insert(1,'one');
-splayTree.insert(2,'two');
 splayTree.insert(3,'three');
 console.log(splayTree.find(1));

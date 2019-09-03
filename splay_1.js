@@ -145,5 +145,4 @@ SplayTree.Node.prototype.right = null;
 splayTree = new SplayTree();
 splayTree.insert(1,'one');
 splayTree.insert(2,'two');
-splayTree.insert(3,'three');
 splayTree.remove(2);

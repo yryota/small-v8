@@ -1,18 +1,3 @@
-var framesTillAddingPoints = 0;
-var framesBetweenAddingPoints = 5;
-
-function prepareFrame(field)
-{
-    if (framesTillAddingPoints == 0) {
-        addPoints(field);
-        framesTillAddingPoints = framesBetweenAddingPoints;
-        framesBetweenAddingPoints++;
-    } else {
-        framesTillAddingPoints--;
-    }
-}
-
-// Code from Oliver Hunt (http://nerget.com/fluidSim/pressure.js) starts here.
 function FluidField(canvas) {
 
     this.setDisplayFunction = function(func) {
@@ -73,5 +58,5 @@ solver = new FluidField(null);
 solver.setResolution(1, 1);
 solver.setIterations(1);
 solver.setDisplayFunction(function(){});
-solver.setUICallback(prepareFrame);
+solver.setUICallback();
 solver.reset();

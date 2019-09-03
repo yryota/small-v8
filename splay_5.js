@@ -166,8 +166,6 @@ SplayTree.Node.prototype.traverse_ = function(f) {
 
 splayTree = new SplayTree();
 splayTree.insert(1,'one');
-splayTree.insert(4,'four');
-splayTree.insert(2,'two');
 splayTree.insert(5,'five');
 splayTree.insert(3,'three');
 console.log(splayTree.exportKeys());

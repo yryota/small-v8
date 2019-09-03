@@ -170,8 +170,6 @@ SplayTree.Node.prototype.right = null;
 
 splayTree = new SplayTree();
 splayTree.insert(1,'one');
-splayTree.insert(4,'four');
-splayTree.insert(2,'two');
 splayTree.insert(5,'five');
 splayTree.insert(3,'three');
 console.log(splayTree.findGreatestLessThan(3));

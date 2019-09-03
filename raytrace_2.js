@@ -6,13 +6,6 @@ var Class = {
   }
 };
 
-Object.extend = function(destination, source) {
-  for (var property in source) {
-    destination[property] = source[property];
-  }
-  return destination;
-};
-
 /* Fake a Flog.* namespace */
 if(typeof(Flog) == 'undefined') var Flog = {};
 if(typeof(Flog.RayTracer) == 'undefined') Flog.RayTracer = {};
@@ -53,14 +46,7 @@ Flog.RayTracer.Camera.prototype = {
         return ray;
     },
 
-    toString : function () {
-        return 'Ray []';
-    }
 }
-
-/* Fake a Flog.* namespace */
-if(typeof(Flog) == 'undefined') var Flog = {};
-if(typeof(Flog.RayTracer) == 'undefined') Flog.RayTracer = {};
 
 Flog.RayTracer.Vector = Class.create();
 
@@ -100,22 +86,11 @@ Flog.RayTracer.Vector.prototype = {
         return new Flog.RayTracer.Vector(v.x - w.x, v.y - w.y, v.z - w.z);
     },
 
-    multiplyVector : function(v, w) {
-        return new Flog.RayTracer.Vector(v.x * w.x, v.y * w.y, v.z * w.z);
-    },
-
     multiplyScalar : function(v, w) {
         return new Flog.RayTracer.Vector(v.x * w, v.y * w, v.z * w);
     },
 
-    toString : function () {
-        return 'Vector [' + this.x + ',' + this.y + ',' + this.z + ']';
-    }
 }
-
-/* Fake a Flog.* namespace */
-if(typeof(Flog) == 'undefined') var Flog = {};
-if(typeof(Flog.RayTracer) == 'undefined') Flog.RayTracer = {};
 
 Flog.RayTracer.Ray = Class.create();
 
@@ -127,9 +102,6 @@ Flog.RayTracer.Ray.prototype = {
         this.direction = dir;
     },
 
-    toString : function () {
-        return 'Ray [' + this.position + ',' + this.direction + ']';
-    }
 }
 
 camera = new Flog.RayTracer.Camera(

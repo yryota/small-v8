@@ -32,18 +32,9 @@ Flog.RayTracer.Color.prototype = {
         this.green = g;
         this.blue = b;
     },
-    toString : function () {
-        var r = Math.floor(this.red*255);
-        var g = Math.floor(this.green*255);
-        var b = Math.floor(this.blue*255);
-
-        return "rgb("+ r +","+ g +","+ b +")";
-    }
 }
 
 /* Fake a Flog.* namespace */
-if(typeof(Flog) == 'undefined') var Flog = {};
-if(typeof(Flog.RayTracer) == 'undefined') Flog.RayTracer = {};
 if(typeof(Flog.RayTracer.Material) == 'undefined') Flog.RayTracer.Material = {};
 
 Flog.RayTracer.Material.BaseMaterial = Class.create();
@@ -71,14 +62,7 @@ Flog.RayTracer.Material.BaseMaterial.prototype = {
         return t;
     },
 
-    toString : function () {
-        return 'Material [gloss=' + this.gloss + ', transparency=' + this.transparency + ', hasTexture=' + this.hasTexture +']';
-    }
 }
-
-/* Fake a Flog.* namespace */
-if(typeof(Flog) == 'undefined') var Flog = {};
-if(typeof(Flog.RayTracer) == 'undefined') Flog.RayTracer = {};
 
 Flog.RayTracer.Material.Chessboard = Class.create();
 
@@ -107,9 +91,6 @@ Flog.RayTracer.Material.Chessboard.prototype = Object.extend(
                 return this.colorOdd;
         },
 
-        toString : function () {
-            return 'ChessMaterial [gloss=' + this.gloss + ', transparency=' + this.transparency + ', hasTexture=' + this.hasTexture +']';
-        }
     }
 );
 

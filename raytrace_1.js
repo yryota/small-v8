@@ -6,13 +6,6 @@ var Class = {
   }
 };
 
-Object.extend = function(destination, source) {
-  for (var property in source) {
-    destination[property] = source[property];
-  }
-  return destination;
-};
-
 if(typeof(Flog) == 'undefined') var Flog = {};
 if(typeof(Flog.RayTracer) == 'undefined') Flog.RayTracer = {};
 
@@ -43,38 +36,6 @@ Flog.RayTracer.Color.prototype = {
         return result;
     },
 
-    addScalar: function(c1, s){
-        var result = new Flog.RayTracer.Color(0,0,0);
-
-        result.red = c1.red + s;
-        result.green = c1.green + s;
-        result.blue = c1.blue + s;
-
-        result.limit();
-
-        return result;
-    },
-
-    subtract: function(c1, c2){
-        var result = new Flog.RayTracer.Color(0,0,0);
-
-        result.red = c1.red - c2.red;
-        result.green = c1.green - c2.green;
-        result.blue = c1.blue - c2.blue;
-
-        return result;
-    },
-
-    multiply : function(c1, c2) {
-        var result = new Flog.RayTracer.Color(0,0,0);
-
-        result.red = c1.red * c2.red;
-        result.green = c1.green * c2.green;
-        result.blue = c1.blue * c2.blue;
-
-        return result;
-    },
-
     multiplyScalar : function(c1, f) {
         var result = new Flog.RayTracer.Color(0,0,0);
 
@@ -83,22 +44,6 @@ Flog.RayTracer.Color.prototype = {
         result.blue = c1.blue * f;
 
         return result;
-    },
-
-    divideFactor : function(c1, f) {
-        var result = new Flog.RayTracer.Color(0,0,0);
-
-        result.red = c1.red / f;
-        result.green = c1.green / f;
-        result.blue = c1.blue / f;
-
-        return result;
-    },
-
-    limit: function(){
-        this.red = (this.red > 0.0) ? ( (this.red > 1.0) ? 1.0 : this.red ) : 0.0;
-        this.green = (this.green > 0.0) ? ( (this.green > 1.0) ? 1.0 : this.green ) : 0.0;
-        this.blue = (this.blue > 0.0) ? ( (this.blue > 1.0) ? 1.0 : this.blue ) : 0.0;
     },
 
     blend: function(c1, c2, w){
@@ -110,13 +55,6 @@ Flog.RayTracer.Color.prototype = {
         return result;
     },
 
-    toString : function () {
-        var r = Math.floor(this.red*255);
-        var g = Math.floor(this.green*255);
-        var b = Math.floor(this.blue*255);
-
-        return "rgb("+ r +","+ g +","+ b +")";
-    }
 }
 
 black = new Flog.RayTracer.Color(1,1,1);
