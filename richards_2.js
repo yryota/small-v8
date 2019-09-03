@@ -1,5 +1,4 @@
 function Scheduler() {
-  this.queueCount = 0;
   this.holdCount = 0;
   this.blocks = new Array(NUMBER_OF_IDS);
   this.list = null;
@@ -40,10 +39,9 @@ Scheduler.prototype.addTask = function (id, priority, queue, task) {
   this.blocks[id] = this.currentTcb;
 };
 
-function Packet(link, id, kind) {
+function Packet(link, id) {
   this.link = link;
   this.id = id;
-  this.kind = kind;
   this.a1 = 0;
   this.a2 = new Array(DATA_SIZE);
 }

@@ -101,29 +101,6 @@ SplayTree.prototype.splay_ = function(key) {
   this.root_ = current;
 };
 
-SplayTree.prototype.remove = function(key) {
-  if (this.isEmpty()) {
-    throw Error('Key not found: ' + key);
-  }
-  this.splay_(key);
-  if (this.root_.key != key) {
-    throw Error('Key not found: ' + key);
-  }
-  var removed = this.root_;
-  if (!this.root_.left) {
-    this.root_ = this.root_.right;
-  } else {
-    var right = this.root_.right;
-    this.root_ = this.root_.left;
-    // Splay to make sure that the new root has an empty right child.
-    this.splay_(key);
-    // Insert the original right child as the right child of the new
-    // root.
-    this.root_.right = right;
-  }
-  return removed;
-};
-
 /**
  * Pointer to the root node of the tree.
  *
@@ -144,5 +121,3 @@ SplayTree.Node.prototype.left = null;
 SplayTree.Node.prototype.right = null;
 splayTree = new SplayTree();
 splayTree.insert(1,'one');
-splayTree.insert(2,'two');
-splayTree.remove(2);
