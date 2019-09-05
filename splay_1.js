@@ -1,5 +1,4 @@
-function SplayTree() {
-};
+require('../_splay.js');
 
 /**
  * Constructs a Splay tree node.
@@ -40,65 +39,27 @@ SplayTree.prototype.insert = function(key, value) {
   this.root_ = node;
 };
 
-SplayTree.prototype.splay_ = function(key) {
+SplayTree.prototype.remove = function(key) {
   if (this.isEmpty()) {
-    return;
+    throw Error('Key not found: ' + key);
   }
-  // Create a dummy node.  The use of the dummy node is a bit
-  // counter-intuitive: The right child of the dummy node will hold
-  // the L tree of the algorithm.  The left child of the dummy node
-  // will hold the R tree of the algorithm.  Using a dummy node, left
-  // and right will always be nodes and we avoid special cases.
-  var dummy, left, right;
-  dummy = left = right = new SplayTree.Node(null, null);
-  var current = this.root_;
-  while (true) {
-    if (key < current.key) {
-      if (!current.left) {
-        break;
-      }
-      if (key < current.left.key) {
-        // Rotate right.
-        var tmp = current.left;
-        current.left = tmp.right;
-        tmp.right = current;
-        current = tmp;
-        if (!current.left) {
-          break;
-        }
-      }
-      // Link right.
-      right.left = current;
-      right = current;
-      current = current.left;
-    } else if (key > current.key) {
-      if (!current.right) {
-        break;
-      }
-      if (key > current.right.key) {
-        // Rotate left.
-        var tmp = current.right;
-        current.right = tmp.left;
-        tmp.left = current;
-        current = tmp;
-        if (!current.right) {
-          break;
-        }
-      }
-      // Link left.
-      left.right = current;
-      left = current;
-      current = current.right;
-    } else {
-      break;
-    }
+  this.splay_(key);
+  if (this.root_.key != key) {
+    throw Error('Key not found: ' + key);
   }
-  // Assemble.
-  left.right = current.left;
-  right.left = current.right;
-  current.left = dummy.right;
-  current.right = dummy.left;
-  this.root_ = current;
+  var removed = this.root_;
+  if (!this.root_.left) {
+    this.root_ = this.root_.right;
+  } else {
+    var right = this.root_.right;
+    this.root_ = this.root_.left;
+    // Splay to make sure that the new root has an empty right child.
+    this.splay_(key);
+    // Insert the original right child as the right child of the new
+    // root.
+    this.root_.right = right;
+  }
+  return removed;
 };
 
 /**
@@ -121,3 +82,5 @@ SplayTree.Node.prototype.left = null;
 SplayTree.Node.prototype.right = null;
 splayTree = new SplayTree();
 splayTree.insert(1,'one');
+splayTree.insert(2,'two');
+splayTree.remove(2);
