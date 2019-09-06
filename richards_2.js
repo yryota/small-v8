@@ -1,3 +1,5 @@
+require('./_richards.js');
+
 function Scheduler() {
   this.holdCount = 0;
   this.blocks = new Array(NUMBER_OF_IDS);
@@ -54,50 +56,6 @@ Packet.prototype.addTo = function (queue) {
     next = peek;
   next.link = this;
   return queue;
-};
-
-function TaskControlBlock(link, id, priority, queue, task) {
-  this.link = link;
-  this.id = id;
-  this.priority = priority;
-  this.queue = queue;
-  this.task = task;
-  if (queue == null) {
-    this.state = STATE_SUSPENDED;
-  } else {
-    this.state = STATE_SUSPENDED_RUNNABLE;
-  }
-}
-
-TaskControlBlock.prototype.setRunning = function () {
-  this.state = STATE_RUNNING;
-};
-
-TaskControlBlock.prototype.isHeldOrSuspended = function () {
-  return (this.state & STATE_HELD) != 0 || (this.state == STATE_SUSPENDED);
-};
-TaskControlBlock.prototype.run = function () {
-  var packet;
-  if (this.state == STATE_SUSPENDED_RUNNABLE) {
-    packet = this.queue;
-    this.queue = packet.link;
-    if (this.queue == null) {
-      this.state = STATE_RUNNING;
-    } else {
-      this.state = STATE_RUNNABLE;
-    }
-  } else {
-    packet = null;
-  }
-  return this.task.run(packet);
-};
-
-TaskControlBlock.prototype.markAsNotHeld = function () {
-  this.state = this.state & STATE_NOT_HELD;
-};
-
-TaskControlBlock.prototype.markAsHeld = function () {
-  this.state = this.state | STATE_HELD;
 };
 
 IdleTask.prototype.run = function (packet) {

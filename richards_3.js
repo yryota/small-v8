@@ -1,3 +1,5 @@
+require('./_richards.js');
+
 function Scheduler() {
   this.queueCount = 0;
   this.holdCount = 0;
@@ -87,50 +89,6 @@ Packet.prototype.addTo = function (queue) {
   return queue;
 };
 
-function TaskControlBlock(link, id, priority, queue, task) {
-  this.link = link;
-  this.id = id;
-  this.priority = priority;
-  this.queue = queue;
-  this.task = task;
-  if (queue == null) {
-    this.state = STATE_SUSPENDED;
-  } else {
-    this.state = STATE_SUSPENDED_RUNNABLE;
-  }
-}
-
-TaskControlBlock.prototype.isHeldOrSuspended = function () {
-  return (this.state & STATE_HELD) != 0 || (this.state == STATE_SUSPENDED);
-};
-TaskControlBlock.prototype.run = function () {
-  var packet;
-  if (this.state == STATE_SUSPENDED_RUNNABLE) {
-    packet = this.queue;
-    this.queue = packet.link;
-    if (this.queue == null) {
-      this.state = STATE_RUNNING;
-    } else {
-      this.state = STATE_RUNNABLE;
-    }
-  } else {
-    packet = null;
-  }
-  return this.task.run(packet);
-};
-
-TaskControlBlock.prototype.markAsNotHeld = function () {
-  this.state = this.state & STATE_NOT_HELD;
-};
-
-TaskControlBlock.prototype.markAsHeld = function () {
-  this.state = this.state | STATE_HELD;
-};
-
-TaskControlBlock.prototype.markAsRunnable = function () {
-  this.state = this.state | STATE_RUNNABLE;
-};
-
 Scheduler.prototype.release = function (id) {
   var tcb = this.blocks[id];
   if (tcb == null) return tcb;
@@ -146,17 +104,6 @@ Scheduler.prototype.holdCurrent = function () {
   this.holdCount++;
   this.currentTcb.markAsHeld();
   return this.currentTcb.link;
-};
-
-TaskControlBlock.prototype.checkPriorityAdd = function (task, packet) {
-  if (this.queue == null) {
-    this.queue = packet;
-    this.markAsRunnable();
-    if (this.priority > task.priority) return this;
-  } else {
-    this.queue = packet.addTo(this.queue);
-  }
-  return task;
 };
 
 var STATE_RUNNING = 0;
