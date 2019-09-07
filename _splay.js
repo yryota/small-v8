@@ -61,4 +61,33 @@ SplayTree.prototype.splay_ = function(key) {
   this.root_ = current;
 };
 
+SplayTree.prototype.isEmpty = function() {
+  return !this.root_;
+};
+
+SplayTree.prototype.insert = function(key, value) {
+  if (this.isEmpty()) {
+    this.root_ = new SplayTree.Node(key, value);
+    return;
+  }
+  // Splay on the key to move the last node on the search path for
+  // the key to the root of the tree.
+  this.splay_(key);
+  if (this.root_.key == key) {
+    return;
+  }
+  var node = new SplayTree.Node(key, value);
+  if (key > this.root_.key) {
+    node.left = this.root_;
+    node.right = this.root_.right;
+    this.root_.right = null;
+  } else {
+    node.right = this.root_;
+    node.left = this.root_.left;
+    this.root_.left = null;
+  }
+  this.root_ = node;
+};
+
+
 exports.SplayTree = SplayTree;

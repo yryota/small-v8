@@ -1,3 +1,5 @@
+require('../_raytrace.js');
+
 var Class = {
   create: function() {
     return function() {
@@ -12,27 +14,6 @@ Object.extend = function(destination, source) {
   }
   return destination;
 };
-
-if(typeof(Flog) == 'undefined') var Flog = {};
-if(typeof(Flog.RayTracer) == 'undefined') Flog.RayTracer = {};
-
-Flog.RayTracer.Color = Class.create();
-
-Flog.RayTracer.Color.prototype = {
-    red : 0.0,
-    green : 0.0,
-    blue : 0.0,
-
-    initialize : function(r, g, b) {
-        if(!r) r = 0.0;
-        if(!g) g = 0.0;
-        if(!b) b = 0.0;
-
-        this.red = r;
-        this.green = g;
-        this.blue = b;
-    },
-}
 
 /* Fake a Flog.* namespace */
 if(typeof(Flog.RayTracer.Material) == 'undefined') Flog.RayTracer.Material = {};
@@ -102,4 +83,4 @@ board = new Flog.RayTracer.Material.Chessboard(
              1.0,
              0.7
              )
-console.log(board.getColor(1,2));
+board.getColor(1,2);

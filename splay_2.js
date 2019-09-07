@@ -10,46 +10,6 @@ SplayTree.prototype.root_ = null;
 
 
 /**
- * @return {boolean} Whether the tree is empty.
- */
-SplayTree.prototype.isEmpty = function() {
-  return !this.root_;
-};
-
-
-/**
- * Inserts a node into the tree with the specified key and value if
- * the tree does not already contain a node with the specified key. If
- * the value is inserted, it becomes the root of the tree.
- *
- * @param {number} key Key to insert into the tree.
- * @param {*} value Value to insert into the tree.
- */
-SplayTree.prototype.insert = function(key, value) {
-  if (this.isEmpty()) {
-    this.root_ = new SplayTree.Node(key, value);
-    return;
-  }
-  // Splay on the key to move the last node on the search path for
-  // the key to the root of the tree.
-  this.splay_(key);
-  if (this.root_.key == key) {
-    return;
-  }
-  var node = new SplayTree.Node(key, value);
-  if (key > this.root_.key) {
-    node.left = this.root_;
-    node.right = this.root_.right;
-    this.root_.right = null;
-  } else {
-    node.right = this.root_;
-    node.left = this.root_.left;
-    this.root_.left = null;
-  }
-  this.root_ = node;
-};
-
-/**
  * Returns the node having the specified key or null if the tree doesn't contain
  * a node with the specified key.
  *

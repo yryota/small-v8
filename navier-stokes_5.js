@@ -7,21 +7,10 @@ function FluidField(canvas) {
         this.setDensity = function(x, y, d) {
              dens[(x + 1) + (y + 1) * rowSize] = d;
         }
-        this.getDensity = function(x, y) {
-             return dens[(x + 1) + (y + 1) * rowSize];
-        }
         this.setVelocity = function(x, y, xv, yv) {
              u[(x + 1) + (y + 1) * rowSize] = xv;
              v[(x + 1) + (y + 1) * rowSize] = yv;
         }
-        this.getXVelocity = function(x, y) {
-             return u[(x + 1) + (y + 1) * rowSize];
-        }
-        this.getYVelocity = function(x, y) {
-             return v[(x + 1) + (y + 1) * rowSize];
-        }
-        this.width = function() { return width; }
-        this.height = function() { return height; }
     }
 
     this.setDisplayFunction = function(func) {
@@ -32,7 +21,6 @@ function FluidField(canvas) {
         displayFunc(new Field(dens, u, v));
     }
 
-    this.iterations = function() { return iterations; }
     var iterations = 1;
     var visc = 0.5;
     var dt = 0.1;
@@ -76,7 +64,6 @@ function FluidField(canvas) {
 }
 
 solver = new FluidField(null);
-solver.setResolution(1, 1);
 solver.setDisplayFunction(function(){});
 solver.reset();
 solver.update();

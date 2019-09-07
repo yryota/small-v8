@@ -1,76 +1,5 @@
-var framesTillAddingPoints = 0;
-var framesBetweenAddingPoints = 5;
-
-function addPoints(field) {
-    var n = 1;
-    for (var i = 1; i <= n; i++) {
-        field.setVelocity(i, i, n, n);
-        field.setDensity(i, i, 5);
-        field.setVelocity(i, n - i, -n, -n);
-        field.setDensity(i, n - i, 20);
-        field.setVelocity(128 - i, n + i, -n, -n);
-        field.setDensity(128 - i, n + i, 30);
-    }
-}
-
-function prepareFrame(field)
-{
-    if (framesTillAddingPoints == 0) {
-        addPoints(field);
-        framesTillAddingPoints = framesBetweenAddingPoints;
-        framesBetweenAddingPoints++;
-    } else {
-        framesTillAddingPoints--;
-    }
-}
-
 // Code from Oliver Hunt (http://nerget.com/fluidSim/pressure.js) starts here.
 function FluidField(canvas) {
-
-    function addFields(x, s, dt)
-    {
-        for (var i=0; i<size ; i++ ) x[i] += dt*s[i];
-    }
-
-    function set_bnd(b, x)
-    {
-        if (b===1) {
-            for (var i = 1; i <= width; i++) {
-                x[i] =  x[i + rowSize];
-                x[i + (height+1) *rowSize] = x[i + height * rowSize];
-            }
-
-            for (var j = 1; i <= height; i++) {
-                x[j * rowSize] = -x[1 + j * rowSize];
-                x[(width + 1) + j * rowSize] = -x[width + j * rowSize];
-            }
-        } else if (b === 2) {
-            for (var i = 1; i <= width; i++) {
-                x[i] = -x[i + rowSize];
-                x[i + (height + 1) * rowSize] = -x[i + height * rowSize];
-            }
-
-            for (var j = 1; j <= height; j++) {
-                x[j * rowSize] =  x[1 + j * rowSize];
-                x[(width + 1) + j * rowSize] =  x[width + j * rowSize];
-            }
-        } else {
-            for (var i = 1; i <= width; i++) {
-                x[i] =  x[i + rowSize];
-                x[i + (height + 1) * rowSize] = x[i + height * rowSize];
-            }
-
-            for (var j = 1; j <= height; j++) {
-                x[j * rowSize] =  x[1 + j * rowSize];
-                x[(width + 1) + j * rowSize] =  x[width + j * rowSize];
-            }
-        }
-        var maxEdge = (height + 1) * rowSize;
-        x[0]                 = 0.5 * (x[1] + x[rowSize]);
-        x[maxEdge]           = 0.5 * (x[1 + maxEdge] + x[height * rowSize]);
-        x[(width+1)]         = 0.5 * (x[width] + x[(width + 1) + rowSize]);
-        x[(width+1)+maxEdge] = 0.5 * (x[width + maxEdge] + x[(width + 1) + height * rowSize]);
-    }
 
     function lin_solve2(x, x0, y, y0, a, c)
     {
@@ -84,8 +13,6 @@ function FluidField(canvas) {
                     ++currentRow;
                 }
             }
-            set_bnd(1, x);
-            set_bnd(2, y);
         } else {
             var invC = 1/c;
             for (var k=0 ; k<iterations; k++) {
@@ -101,58 +28,15 @@ function FluidField(canvas) {
                         lastY = y[currentRow] = (y0[currentRow] + a * (lastY + y[++currentRow] + y[++lastRow] + y[++nextRow])) * invC;
                     }
                 }
-                set_bnd(1, x);
-                set_bnd(2, y);
             }
         }
     }
 
-    function diffuse2(x, x0, y, y0, dt)
-    {
-        var a = 0;
-        lin_solve2(x, x0, y, y0, a, 1 + 4 * a);
-    }
-
-    function vel_step(u, v, u0, v0, dt)
-    {
-        diffuse2(u,u0,v,v0, dt);
-    }
-
-    function Field(dens, u, v) {
-        // Just exposing the fields here rather than using accessors is a measurable win during display (maybe 5%)
-        // but makes the code ugly.
-        this.setDensity = function(x, y, d) {
-             dens[(x + 1) + (y + 1) * rowSize] = d;
-        }
-        this.getDensity = function(x, y) {
-             return dens[(x + 1) + (y + 1) * rowSize];
-        }
-        this.setVelocity = function(x, y, xv, yv) {
-             u[(x + 1) + (y + 1) * rowSize] = xv;
-             v[(x + 1) + (y + 1) * rowSize] = yv;
-        }
-        this.getXVelocity = function(x, y) {
-             return u[(x + 1) + (y + 1) * rowSize];
-        }
-        this.getYVelocity = function(x, y) {
-             return v[(x + 1) + (y + 1) * rowSize];
-        }
-        this.width = function() { return width; }
-        this.height = function() { return height; }
-    }
-
-    this.setDisplayFunction = function(func) {
-        displayFunc = func;
-    }
-
     this.update = function () {
-        vel_step(u, v, u_prev, v_prev, dt);
+	var a = 0;
+        lin_solve2(u, u_prev, v, v_prev, a, 1 + 4 * a);
     }
 
-    this.iterations = function() { return iterations; }
-    this.setUICallback = function(callback) {
-        uiCallback = callback;
-    }
     var iterations = 1;
     var visc = 0.5;
     var dt = 0.1;
@@ -196,7 +80,5 @@ function FluidField(canvas) {
 }
 
 solver = new FluidField(null);
-solver.setResolution(1, 1);
-solver.setUICallback(prepareFrame);
 solver.reset();
 solver.update();

@@ -31,9 +31,7 @@ function FluidField(canvas) {
     }
 
     function Field(dens, u, v) {
-        // Just exposing the fields here rather than using accessors is a measurable win during display (maybe 5%)
-        // but makes the code ugly.
-        this.setDensity = function(x, y, d) {
+	this.setDensity = function(x, y, d) {
              dens[(x + 1) + (y + 1) * rowSize] = d;
         }
         this.setVelocity = function(x, y, xv, yv) {
@@ -46,7 +44,6 @@ function FluidField(canvas) {
         queryUI(dens_prev, u_prev, v_prev);
     }
 
-    this.iterations = function() { return iterations; }
     this.setUICallback = function(callback) {
         uiCallback = callback;
     }
@@ -86,7 +83,6 @@ function FluidField(canvas) {
 }
 
 solver = new FluidField(null);
-solver.setResolution(1, 1);
 solver.setUICallback(prepareFrame);
 solver.reset();
 solver.update();

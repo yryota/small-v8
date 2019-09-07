@@ -36,4 +36,3 @@ Flog.RayTracer.Color.prototype = {
 
 c = new Flog.RayTracer.Color(0.8, 2.0, 0.8);
 c.limit();
-console.log(c);

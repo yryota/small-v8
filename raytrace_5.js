@@ -1,3 +1,5 @@
+require('../_raytrace.js');
+
 var Class = {
   create: function() {
     return function() {
@@ -12,59 +14,6 @@ Object.extend = function(destination, source) {
   }
   return destination;
 };
-
-/* Fake a Flog.* namespace */
-if(typeof(Flog) == 'undefined') var Flog = {};
-if(typeof(Flog.RayTracer) == 'undefined') Flog.RayTracer = {};
-
-Flog.RayTracer.Vector = Class.create();
-
-Flog.RayTracer.Vector.prototype = {
-    x : 0.0,
-    y : 0.0,
-    z : 0.0,
-
-    initialize : function(x, y, z) {
-        this.x = (x ? x : 0);
-        this.y = (y ? y : 0);
-        this.z = (z ? z : 0);
-    },
-
-    add : function(v, w) {
-        return new Flog.RayTracer.Vector(w.x + v.x, w.y + v.y, w.z + v.z);
-    },
-
-    multiplyScalar : function(v, w) {
-        return new Flog.RayTracer.Vector(v.x * w, v.y * w, v.z * w);
-    },
-
-    toString : function () {
-        return 'Vector [' + this.x + ',' + this.y + ',' + this.z + ']';
-    }
-}
-
-/* Fake a Flog.* namespace */
-if(typeof(Flog) == 'undefined') var Flog = {};
-if(typeof(Flog.RayTracer) == 'undefined') Flog.RayTracer = {};
-
-Flog.RayTracer.Ray = Class.create();
-
-Flog.RayTracer.Ray.prototype = {
-    position : null,
-    direction : null,
-    initialize : function(pos, dir) {
-        this.position = pos;
-        this.direction = dir;
-    },
-
-    toString : function () {
-        return 'Ray [' + this.position + ',' + this.direction + ']';
-    }
-}
-
-/* Fake a Flog.* namespace */
-if(typeof(Flog) == 'undefined') var Flog = {};
-if(typeof(Flog.RayTracer) == 'undefined') Flog.RayTracer = {};
 
 Flog.RayTracer.Engine = Class.create();
 

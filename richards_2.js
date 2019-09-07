@@ -1,12 +1,4 @@
-require('./_richards.js');
-
-function Scheduler() {
-  this.holdCount = 0;
-  this.blocks = new Array(NUMBER_OF_IDS);
-  this.list = null;
-  this.currentTcb = null;
-  this.currentId = null;
-}
+require('../_richards.js');
 
 Scheduler.prototype.schedule = function () {
   this.currentTcb = this.list;
@@ -33,29 +25,6 @@ Scheduler.prototype.addIdleTask = function (id, priority, queue, count) {
 Scheduler.prototype.addRunningTask = function (id, priority, queue, task) {
   this.addTask(id, priority, queue, task);
   this.currentTcb.setRunning();
-};
-
-Scheduler.prototype.addTask = function (id, priority, queue, task) {
-  this.currentTcb = new TaskControlBlock(this.list, id, priority, queue, task);
-  this.list = this.currentTcb;
-  this.blocks[id] = this.currentTcb;
-};
-
-function Packet(link, id) {
-  this.link = link;
-  this.id = id;
-  this.a1 = 0;
-  this.a2 = new Array(DATA_SIZE);
-}
-
-Packet.prototype.addTo = function (queue) {
-  this.link = null;
-  if (queue == null) return this;
-  var peek, next = queue;
-  while ((peek = next.link) != null)
-    next = peek;
-  next.link = this;
-  return queue;
 };
 
 IdleTask.prototype.run = function (packet) {

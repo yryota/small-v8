@@ -4,7 +4,6 @@ function FluidField(canvas) {
         displayFunc = func;
     }
 
-    this.iterations = function() { return iterations; }
     this.setIterations = function(iters) {
         if (iters > 0 && iters <= 100)
            iterations = iters;
@@ -55,8 +54,6 @@ function FluidField(canvas) {
 }
 
 solver = new FluidField(null);
-solver.setResolution(1, 1);
-solver.setIterations(1);
 solver.setDisplayFunction(function(){});
 solver.setUICallback();
 solver.reset();

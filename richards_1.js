@@ -1,3 +1,5 @@
+require('../_richards.js');
+
 function Scheduler() {
   this.blocks = new Array(NUMBER_OF_IDS);
   this.list = null;
@@ -29,26 +31,6 @@ Scheduler.prototype.addTask = function (id, priority, queue, task) {
   this.list = this.currentTcb;
   this.blocks[id] = this.currentTcb;
 };
-
-function Packet(link, id) {
-  this.link = link;
-  this.id = id;
-  this.a1 = 0;
-  this.a2 = new Array(DATA_SIZE);
-}
-
-function TaskControlBlock(link, id, priority, queue, task) {
-  this.link = link;
-  this.id = id;
-  this.priority = priority;
-  this.queue = queue;
-  this.task = task;
-  if (queue == null) {
-    this.state = STATE_SUSPENDED;
-  } else {
-    this.state = STATE_SUSPENDED_RUNNABLE;
-  }
-}
 
 var STATE_RUNNING = 0;
 var STATE_RUNNABLE = 1;

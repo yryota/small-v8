@@ -1,16 +1,4 @@
-require('./_deltablue.js');
-
-function Strength(strengthValue, name) {
-  this.strengthValue = strengthValue;
-  this.name = name;
-}
-
-Strength.NORMAL           = new Strength(4, "normal");
-Strength.WEAKEST          = new Strength(6, "weakest");
-
-function Constraint(strength) {
-  this.strength = strength;
-}
+require('../_deltablue.js');
 
 function Variable(name, initialValue) {
   this.value = initialValue || 0;

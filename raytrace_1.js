@@ -40,4 +40,4 @@ Flog.RayTracer.Color.prototype = {
 
 black = new Flog.RayTracer.Color(1,1,1);
 white = new Flog.RayTracer.Color(0,0,0);
-console.log(Flog.RayTracer.Color.prototype.add(black, white));
+black.add(black, white);
