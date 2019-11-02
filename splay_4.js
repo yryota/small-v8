@@ -1,4 +1,6 @@
 require('../_splay.js');
+SplayTree = function SplayTree(){};
+SplayTree.prototype = st.prototype;
 
 /**
  * Pointer to the root node of the tree.
@@ -12,16 +14,6 @@ SplayTree.prototype.root_ = null;
 /**
  * @return {SplayTree.Node} Node having the maximum key value.
  */
-SplayTree.prototype.findMax = function(opt_startNode) {
-  if (this.isEmpty()) {
-    return null;
-  }
-  var current = opt_startNode || this.root_;
-  while (current.right) {
-    current = current.right;
-  }
-  return current;
-};
 
 SplayTree.prototype.findGreatestLessThan = function(key) {
   if (this.isEmpty()) {

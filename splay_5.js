@@ -1,4 +1,7 @@
 require('../_splay.js');
+SplayTree = function SplayTree(){};
+SplayTree.prototype = st.prototype;
+SplayTree.Node = st.Node;
 
 /**
  * Pointer to the root node of the tree.
@@ -18,18 +21,6 @@ SplayTree.prototype.exportKeys = function() {
   }
   return result;
 };
-
-/**
- * Constructs a Splay tree node.
- *
- * @param {number} key Key.
- * @param {*} value Value.
- */
-SplayTree.Node = function(key, value) {
-  this.key = key;
-  this.value = value;
-};
-
 
 /**
  * @type {SplayTree.Node}

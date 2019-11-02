@@ -40,8 +40,6 @@ function FluidField(canvas) {
     var iterations = 1;
     var visc = 0.5;
     var dt = 0.1;
-    var dens;
-    var dens_prev;
     var u;
     var u_prev;
     var v;
@@ -55,14 +53,12 @@ function FluidField(canvas) {
     {
         rowSize = width;
         size = (width)*(height);
-        dens = new Array(size);
-        dens_prev = new Array(size);
         u = new Array(size);
         u_prev = new Array(size);
         v = new Array(size);
         v_prev = new Array(size);
         for (var i = 0; i < size; i++)
-            dens_prev[i] = u_prev[i] = v_prev[i] = dens[i] = u[i] = v[i] = 0;
+            u_prev[i] = v_prev[i] = u[i] = v[i] = 0;
     }
     this.reset = reset;
     this.setResolution = function (hRes, wRes)

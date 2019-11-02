@@ -1,5 +1,7 @@
 require('../_splay.js');
 
+SplayTree = function SplayTree(){};
+SplayTree.prototype = st.prototype;
 /**
  * Pointer to the root node of the tree.
  *

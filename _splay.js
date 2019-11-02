@@ -1,6 +1,6 @@
-SplayTree = function SplayTree(){};
+st = function st(){};
 
-SplayTree.prototype.splay_ = function(key) {
+st.prototype.splay_ = function(key) {
   if (this.isEmpty()) {
     return;
   }
@@ -61,11 +61,21 @@ SplayTree.prototype.splay_ = function(key) {
   this.root_ = current;
 };
 
-SplayTree.prototype.isEmpty = function() {
+st.prototype.isEmpty = function() {
   return !this.root_;
 };
 
-SplayTree.prototype.insert = function(key, value) {
+st.prototype.findMax = function(opt_startNode) {
+  if (this.isEmpty()) {
+    return null;
+  }
+  var current = opt_startNode || this.root_;
+  while (current.right) {
+    current = current.right;
+  }
+  return current;
+};
+st.prototype.insert = function(key, value) {
   if (this.isEmpty()) {
     this.root_ = new SplayTree.Node(key, value);
     return;
@@ -89,5 +99,10 @@ SplayTree.prototype.insert = function(key, value) {
   this.root_ = node;
 };
 
+st.Node = function(key, value) {
+  this.key = key;
+  this.value = value;
+};
 
-exports.SplayTree = SplayTree;
+
+exports.st = st;

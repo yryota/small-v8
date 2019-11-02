@@ -6,12 +6,11 @@ var Class = {
   }
 };
 
-if(typeof(Flog) == 'undefined') var Flog = {};
-if(typeof(Flog.RayTracer) == 'undefined') Flog.RayTracer = {};
+if(typeof(RayTracer) == 'undefined') RayTracer = {};
 
-Flog.RayTracer.Color = Class.create();
+RayTracer.Color = Class.create();
 
-Flog.RayTracer.Color.prototype = {
+RayTracer.Color.prototype = {
     red : 0.0,
     green : 0.0,
     blue : 0.0,
@@ -27,7 +26,7 @@ Flog.RayTracer.Color.prototype = {
     },
 
     add : function(c1, c2){
-        var result = new Flog.RayTracer.Color(0,0,0);
+        var result = new RayTracer.Color(0,0,0);
 
         result.red = c1.red + c2.red;
         result.green = c1.green + c2.green;
@@ -38,6 +37,6 @@ Flog.RayTracer.Color.prototype = {
 
 }
 
-black = new Flog.RayTracer.Color(1,1,1);
-white = new Flog.RayTracer.Color(0,0,0);
+black = new RayTracer.Color(1,1,1);
+white = new RayTracer.Color(0,0,0);
 black.add(black, white);

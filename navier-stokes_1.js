@@ -25,27 +25,12 @@ function FluidField(canvas) {
     var rowSize;
     var size;
     var displayFunc;
-    function reset()
-    {
-        rowSize = width;
-        size = (width)*(height);
-        dens = new Array(size);
-        dens_prev = new Array(size);
-        u = new Array(size);
-        u_prev = new Array(size);
-        v = new Array(size);
-        v_prev = new Array(size);
-        for (var i = 0; i < size; i++)
-            dens_prev[i] = u_prev[i] = v_prev[i] = dens[i] = u[i] = v[i] = 0;
-    }
-    this.reset = reset;
     this.setResolution = function (hRes, wRes)
     {
         var res = wRes * hRes;
         if (res > 0 && res < 1000000 && (wRes != width || hRes != height)) {
             width = wRes;
             height = hRes;
-            reset();
             return true;
         }
         return false;
@@ -56,4 +41,3 @@ function FluidField(canvas) {
 solver = new FluidField(null);
 solver.setDisplayFunction(function(){});
 solver.setUICallback();
-solver.reset();
