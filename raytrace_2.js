@@ -1,3 +1,5 @@
+this;
+global;
 var Class = {
   create: function() {
     return function() {

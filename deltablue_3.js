@@ -1,3 +1,5 @@
+this;
+global;
 require('../_deltablue.js');
 
 function Variable(name, initialValue) {

@@ -1,4 +1,36 @@
+this;
+global;
 require('../_richards.js');
+
+TaskControlBlock = function TaskControlBlock(link, id, priority, queue, task) {
+  this.link = link;
+  this.id = id;
+  this.priority = priority;
+  this.queue = queue;
+  this.task = task;
+  if (queue == null) {
+    this.state = STATE_SUSPENDED;
+  } else {
+    this.state = STATE_SUSPENDED_RUNNABLE;
+  }
+}
+
+TaskControlBlock.prototype = tcb.prototype;
+
+Scheduler = function Scheduler() {
+  this.queueCount = 0;
+  this.holdCount = 0;
+  this.blocks = new Array(NUMBER_OF_IDS);
+  this.list = null;
+  this.currentTcb = null;
+  this.currentId = null;
+}
+
+Scheduler.prototype.addTask = function (id, priority, queue, task) {
+  this.currentTcb = new TaskControlBlock(this.list, id, priority, queue, task);
+  this.list = this.currentTcb;
+  this.blocks[id] = this.currentTcb;
+};
 
 Scheduler.prototype.schedule = function () {
   this.currentTcb = this.list;

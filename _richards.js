@@ -1,4 +1,6 @@
-TaskControlBlock = function TaskControlBlock(link, id, priority, queue, task) {
+this;
+global;
+tcb = function tcb(link, id, priority, queue, task) {
   this.link = link;
   this.id = id;
   this.priority = priority;
@@ -11,14 +13,14 @@ TaskControlBlock = function TaskControlBlock(link, id, priority, queue, task) {
   }
 }
 
-TaskControlBlock.prototype.setRunning = function () {
+tcb.prototype.setRunning = function () {
   this.state = STATE_RUNNING;
 };
 
-TaskControlBlock.prototype.isHeldOrSuspended = function () {
+tcb.prototype.isHeldOrSuspended = function () {
   return (this.state & STATE_HELD) != 0 || (this.state == STATE_SUSPENDED);
 };
-TaskControlBlock.prototype.run = function () {
+tcb.prototype.run = function () {
   var packet;
   if (this.state == STATE_SUSPENDED_RUNNABLE) {
     packet = this.queue;
@@ -34,19 +36,19 @@ TaskControlBlock.prototype.run = function () {
   return this.task.run(packet);
 };
 
-TaskControlBlock.prototype.markAsNotHeld = function () {
+tcb.prototype.markAsNotHeld = function () {
   this.state = this.state & STATE_NOT_HELD;
 };
 
-TaskControlBlock.prototype.markAsHeld = function () {
+tcb.prototype.markAsHeld = function () {
   this.state = this.state | STATE_HELD;
 };
 
-TaskControlBlock.prototype.markAsSuspended = function () {
+tcb.prototype.markAsSuspended = function () {
   this.state = this.state | STATE_SUSPENDED;
 };
 
-TaskControlBlock.prototype.checkPriorityAdd = function (task, packet) {
+tcb.prototype.checkPriorityAdd = function (task, packet) {
   if (this.queue == null) {
     this.queue = packet;
     this.markAsRunnable();
@@ -142,6 +144,6 @@ var STATE_NOT_HELD = ~STATE_HELD;
 var DATA_SIZE = 1;
 var NUMBER_OF_IDS = 4;
 
-exports.TaskControlBlock = TaskControlBlock;
+exports.tcb = tcb;
 exports.Packet = Packet;
 exports.Scheduler = Scheduler;

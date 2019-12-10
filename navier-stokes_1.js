@@ -1,3 +1,5 @@
+this;
+global;
 function FluidField(canvas) {
 
     this.setDisplayFunction = function(func) {

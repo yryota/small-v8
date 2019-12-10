@@ -1,3 +1,5 @@
+this;
+global;
 // Code from Oliver Hunt (http://nerget.com/fluidSim/pressure.js) starts here.
 function FluidField(canvas) {
 

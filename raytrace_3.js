@@ -1,3 +1,5 @@
+this;
+global;
 require('../_raytrace.js');
 
 var Class = {
@@ -28,12 +30,7 @@ Flog.RayTracer.Material.BaseMaterial.prototype = {
     refraction: 0.50,
     hasTexture: false,
 
-    initialize : function() {
-
-    },
-
-    getColor: function(u, v){
-
+    initialize : function(){
     },
 
     wrapUp: function(t){

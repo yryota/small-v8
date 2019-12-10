@@ -1,5 +1,7 @@
+this;
+global;
 require('../_richards.js');
-
+TaskControlBlock = tcb;
 Scheduler.prototype.addHandlerTask = function (id, priority, queue) {
   this.addTask(id, priority, queue, new HandlerTask(this));
 };

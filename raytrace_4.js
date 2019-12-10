@@ -1,3 +1,5 @@
+this;
+global;
 require('../_raytrace.js');
 
 var Class = {

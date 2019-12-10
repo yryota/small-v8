@@ -1,3 +1,5 @@
+this;
+global;
 require('../_splay.js');
 
 SplayTree = function SplayTree(){};

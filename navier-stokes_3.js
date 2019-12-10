@@ -1,3 +1,5 @@
+this;
+global;
 var framesTillAddingPoints = 0;
 var framesBetweenAddingPoints = 5;
 

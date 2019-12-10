@@ -1,3 +1,5 @@
+this;
+global;
 function OrderedCollection() {
   this.elms = new Array();
 }
@@ -6,16 +8,8 @@ OrderedCollection.prototype.add = function (elm) {
   this.elms.push(elm);
 }
 
-OrderedCollection.prototype.at = function (index) {
+OrderedCollection.prototype.at = function (index) {
   return this.elms[index];
-}
-
-OrderedCollection.prototype.size = function () {
-  return this.elms.length;
-}
-
-OrderedCollection.prototype.removeFirst = function () {
-  return this.elms.pop();
 }
 
 OrderedCollection.prototype.remove = function (elm) {
@@ -36,8 +30,4 @@ OrderedCollection.prototype.remove = function (elm) {
 oc = new OrderedCollection();
 oc.add(1);
 oc.add(2);
-oc.add(3);
-console.log(oc.size());
 oc.remove(oc.at(2));
-oc.removeFirst();
-console.log(oc);
