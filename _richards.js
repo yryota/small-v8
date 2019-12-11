@@ -1,5 +1,25 @@
 this;
 global;
+
+
+IdleTask = function IdleTask(scheduler, v1, count) {
+  this.scheduler = scheduler;
+  this.v1 = v1;
+  this.count = count;
+}
+
+IdleTask.prototype.run = function (packet) {
+  this.count--;
+  if (this.count == 0) return this.scheduler.holdCurrent();
+  if ((this.v1 & 1) == 0) {
+    this.v1 = this.v1 >> 1;
+    return this.scheduler.release(ID_DEVICE_A);
+  } else {
+    this.v1 = (this.v1 >> 1) ^ 0xD008;
+    return this.scheduler.release(ID_DEVICE_B);
+  }
+};
+
 tcb = function tcb(link, id, priority, queue, task) {
   this.link = link;
   this.id = id;
@@ -76,7 +96,7 @@ Packet.prototype.addTo = function (queue) {
   return queue;
 };
 
-Scheduler = function Scheduler() {
+sch = function sch() {
   this.queueCount = 0;
   this.holdCount = 0;
   this.blocks = new Array(NUMBER_OF_IDS);
@@ -85,7 +105,7 @@ Scheduler = function Scheduler() {
   this.currentId = null;
 }
 
-Scheduler.prototype.schedule = function () {
+sch.prototype.schedule = function () {
   this.currentTcb = this.list;
   while (this.currentTcb != null) {
     if (this.currentTcb.isHeldOrSuspended()) {
@@ -97,13 +117,13 @@ Scheduler.prototype.schedule = function () {
   }
 };
 
-Scheduler.prototype.addTask = function (id, priority, queue, task) {
+sch.prototype.addTask = function (id, priority, queue, task) {
   this.currentTcb = new TaskControlBlock(this.list, id, priority, queue, task);
   this.list = this.currentTcb;
   this.blocks[id] = this.currentTcb;
 };
 
-Scheduler.prototype.queue = function (packet) {
+sch.prototype.queue = function (packet) {
   var t = this.blocks[packet.id];
   if (t == null) return t;
   this.queueCount++;
@@ -112,12 +132,12 @@ Scheduler.prototype.queue = function (packet) {
   return t.checkPriorityAdd(this.currentTcb, packet);
 };
 
-Scheduler.prototype.suspendCurrent = function () {
+sch.prototype.suspendCurrent = function () {
   this.currentTcb.markAsSuspended();
   return this.currentTcb;
 };
 
-Scheduler.prototype.release = function (id) {
+sch.prototype.release = function (id) {
   var tcb = this.blocks[id];
   if (tcb == null) return tcb;
   tcb.markAsNotHeld();
@@ -128,12 +148,20 @@ Scheduler.prototype.release = function (id) {
   }
 };
 
-Scheduler.prototype.holdCurrent = function () {
+sch.prototype.addIdleTask = function (id, priority, queue, count) {
+  this.addRunningTask(id, priority, queue, new IdleTask(this, 1, count));
+};
+
+sch.prototype.holdCurrent = function () {
   this.holdCount++;
   this.currentTcb.markAsHeld();
   return this.currentTcb.link;
 };
 
+sch.prototype.addRunningTask = function (id, priority, queue, task) {
+  this.addTask(id, priority, queue, task);
+  this.currentTcb.setRunning();
+};
 
 var STATE_RUNNING = 0;
 var STATE_RUNNABLE = 1;
@@ -146,4 +174,5 @@ var NUMBER_OF_IDS = 4;
 
 exports.tcb = tcb;
 exports.Packet = Packet;
-exports.Scheduler = Scheduler;
+exports.sch = sch;
+exports.IdleTask = IdleTask;

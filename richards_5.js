@@ -2,6 +2,7 @@ this;
 global;
 require('../_richards.js');
 TaskControlBlock = tcb;
+Scheduler = sch;
 Scheduler.prototype.addDeviceTask = function (id, priority, queue) {
   this.addTask(id, priority, queue, new DeviceTask(this))
 };

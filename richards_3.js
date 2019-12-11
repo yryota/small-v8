@@ -3,6 +3,7 @@ global;
 require('../_richards.js');
 
 TaskControlBlock = tcb;
+Scheduler = sch;
 
 function WorkerTask(scheduler, v1, v2) {
   this.scheduler = scheduler;
